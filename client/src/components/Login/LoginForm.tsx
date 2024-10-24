@@ -7,7 +7,7 @@ type formFields = {
     password: string;
 }
 
-const Form = () => {
+const LoginForm = () => {
     const { register, handleSubmit, setError, formState: {errors, isSubmitting} } = useForm<formFields>();
     const onSubmit: SubmitHandler<formFields> = async (data) =>{
         try {
@@ -56,4 +56,4 @@ const Form = () => {
   )
 }
 
-export default Form
+export default LoginForm
