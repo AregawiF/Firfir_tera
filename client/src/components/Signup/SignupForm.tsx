@@ -7,7 +7,7 @@ type signupFields = {
     lastName: string;
     email: string;
     password: string;
-    type: string;
+    role: string;
     title: string;
     bio: string;
 }
@@ -73,19 +73,19 @@ const SignupForm = () => {
         <div className=' text-center  '>
             <div className='text-2xl my-4'>What will you be doing?</div>
             <input
-                {...register("type", { required: "Please select an option" })}
+                {...register("role", { required: "Please select an option" })}
                 type="radio"
-                value="view"
+                value="viewer"
                 className="ml-2"
             /> View Recipes
             <input
-                {...register("type", { required: "Please select an option" })}
+                {...register("role", { required: "Please select an option" })}
                 type="radio"
-                value="post"
+                value="cook"
                 className="ml-10"
             /> Post Recipes
-            {errors.type && <p className='text-red-500 ml-7'>{errors.type.message}</p>}
-            {watch("type") === "post" && (
+            {errors.role && <p className='text-red-500 ml-7'>{errors.role.message}</p>}
+            {watch("role") === "cook" && (
                 <div className="mt-4">
                     <div className="flex justify-center mt-4">
                         <input
