@@ -105,7 +105,7 @@ export class RecipeService {
     else {
       throw new UnauthorizedException('Only cooks are allowed to create recipes');
     }
-    console.log(recipe)
+    // console.log(recipe)
     const createdRecipe = await this.recipeModel.create(recipe);
     return createdRecipe;
   }
@@ -132,6 +132,21 @@ export class RecipeService {
 
   //   return updatedRecipe;
   // }
+  // async updateById(id: string, updateData: updateRecipeDto): Promise<Recipe> {
+
+  //   // Implement the logic to update the recipe by id
+
+  //   // For example:
+
+  //   const recipe = await this.recipeModel.findByIdAndUpdate(id, updateData, { new: true });
+
+  //   return recipe;
+
+  // }
+
+
+
+  
 
   async updateRecipe (
     recipeId,
@@ -144,10 +159,9 @@ export class RecipeService {
     fasting,
     type,
     image
-)
-{
-    console.log(recipeId, recipeName)
-    let updated
+){
+    // console.log(recipeId, recipeName)
+    let updated;
     try{
         updated = await this.recipeModel.findById(recipeId);
     }
@@ -180,9 +194,11 @@ export class RecipeService {
     if (image){
         updated.image = image
     }
-    updated.save();
-    console.log(updated)
-}
+    await updated.save();
+    return updated;
+  }catch (error) {
+    throw new NotFoundException('Could not update recipe');
+  }
   
   
   async deleteById(id: string): Promise<Recipe> {

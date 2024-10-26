@@ -1,23 +1,36 @@
 import { SubmitHandler, useForm } from 'react-hook-form';
+import { useLoginMutation } from '../../services/authApi'; 
 // import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 // import { faEnvelope, faLock } from '@fortawesome/free-solid-svg-icons';
+import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { login as loginAction } from '../../store/authSlice'; 
 
-type formFields = {
+
+type FormFields = {
     email: string;
     password: string;
 }
 
 const LoginForm = () => {
-    const { register, handleSubmit, setError, formState: {errors, isSubmitting} } = useForm<formFields>();
-    const onSubmit: SubmitHandler<formFields> = async (data) =>{
+    const [login, { isLoading, error }] = useLoginMutation();
+    const { register, handleSubmit, setError, formState: { errors, isSubmitting } } = useForm<FormFields>();
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+    const onSubmit: SubmitHandler<FormFields> = async (data) => {
         try {
-            await new Promise(resolve => setTimeout(resolve, 2000));
-            throw new Error();
-            console.log(data)
+            const response = await login(data).unwrap();
+            console.log('Login Successful:', response);
+            localStorage.setItem('token', response.token); 
+
+            // Dispatch the login action to update the global state
+            dispatch(loginAction()); 
+            navigate('/');
+            // Handle successful login (e.g., redirect, store tokens, etc.)
         } catch (err) {
             setError("root", {
-                message: "Error from the backend"
-            })
+                message: "Invalid email or password"
+            });
         }
     };
 

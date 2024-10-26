@@ -14,12 +14,12 @@ export class createRecipeDto {
   @IsNumber()
   @IsNotEmpty()
 
-   cookTime: number;
+   cookTime: string;
 
   @IsNumber()
   @IsNotEmpty()
 
-  people: number;
+  people: string;
 
   @IsArray()
   @IsNotEmpty()

@@ -2,7 +2,7 @@ import React from 'react'
 
 const RecipePage = () => {
   return (
-    <div className="recipe-card p-5 bg-gray-300 py-2 px-10">
+    <div className="recipe-card p-5 bg-gray-300 px-10 pb-20">
       <h2 className="text-2xl font-bold ml-7 my-2">Chicken Skewers</h2>
       <img src="/Images/chicken-peppers.jpg" alt="Recipe" className="recipe-card__image w-10/12 mx-auto mb-3" />
       <div className="recipe-card__content">
