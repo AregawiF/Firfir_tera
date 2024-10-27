@@ -16,9 +16,15 @@ const Home = () => {
 
   return (
     <div className="flex flex-wrap mx-10 my-7 justify-between">
-      {recipes.map((recipe:Recipe) => (
-        <RecipeCard key={recipe._id} recipe={recipe} /> 
-      ))}
+      {recipes.length === 0 ? (
+        <div className="text-center w-full text-gray-600 text-3xl font-semibold">
+          No recipes available !
+        </div>
+      ) : (
+        recipes.map((recipe: Recipe) => (
+          <RecipeCard key={recipe._id} recipe={recipe} />
+        ))
+      )}
     </div>
   );
 };

@@ -8,7 +8,7 @@ type DishFormFields = {
     image: FileList;
     timeInMinutes: number;
     servings: number;
-    fasting: boolean;
+    fasting: string;
     mealType: string;
     ingredients: { name: string }[];
     steps: { step: string }[];

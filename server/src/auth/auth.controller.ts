@@ -8,12 +8,12 @@ import { SignUpDto } from '../dto/signup.dto';
 export class AuthController {
   constructor(private authService: AuthService) { }
 
-  @Post('signup/normal')
+  @Post('signup/viewer')
   signUpNormal(@Body() signUpDto: SignUpDto): Promise<{ token: string }> {
-    if (!signUpDto.role || signUpDto.role !== 'cook') {
+    if (!signUpDto.role || signUpDto.role !== 'viewer') {
       throw new UnauthorizedException('Invalid role');
     }
-    signUpDto.role = ['normal'];
+    signUpDto.role = 'viewer';
     return this.authService.signUp(signUpDto);
   }
 
@@ -22,12 +22,17 @@ export class AuthController {
     if (!signUpDto.role || signUpDto.role !== 'cook') {
       throw new UnauthorizedException('Invalid role');
     }
-    signUpDto.role = ['cook'];
+    signUpDto.role = 'cook';
     return this.authService.signUp(signUpDto);
   }
 
   @Post('login')
   login(@Body() loginDto: LoginDto): Promise<{ token: string }> {
     return this.authService.login(loginDto);
+  }
+
+  @Post('logout')
+  logout(@Body('token') token: string): Promise<{ message: string }> {
+    return this.authService.logout(token);
   }
 }

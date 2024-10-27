@@ -10,13 +10,14 @@ import { MongoError } from 'mongodb';
 
 @Injectable()
 export class AuthService {
+  private tokenBlacklist: Set<string> = new Set(); 
   constructor(
     @InjectModel(User.name)
     private userModel: Model<User>,
     private jwtService: JwtService,
   ) { }
 
-  async signUp(signUpDto: SignUpDto): Promise<{ token: string, role: string[] }> {
+  async signUp(signUpDto: SignUpDto): Promise<{ token: string, role: string }> {
     const { firstName, lastName, email, password, role } = signUpDto;
 
     const hashedPassword = await bcrypt.hash(password, 10);
@@ -27,12 +28,12 @@ export class AuthService {
         lastName,
         email,
         password: hashedPassword,
-        role: Array.isArray(role) ? role : [role],
+        role: role,
       });
 
       const token = this.jwtService.sign({ id: user._id, role: user.role });
 
-      return { token: token, role: user.role };
+      return { token: token, role: user.role};
     } catch (error) {
       if (error instanceof MongoError && error.code === 11000) {
         throw new ConflictException('Duplicate email');
@@ -41,7 +42,7 @@ export class AuthService {
     }
   }
 
-  async login(loginDto: LoginDto): Promise<{ token: string, role: string[] }> {
+  async login(loginDto: LoginDto): Promise<{ token: string, role: string }> {
     const { email, password } = loginDto;
     const user = await this.userModel.findOne({ email });
     if (!user) {
@@ -56,6 +57,16 @@ export class AuthService {
 
     const token = this.jwtService.sign({ id: user._id, role: user.role });
 
-    return { token: token, role: user.role };
+    return { token: token, role: user.role};
+  }
+
+  async logout(token: string): Promise<{ message: string }> {
+    this.tokenBlacklist.add(token); // Add token to blacklist
+    return { message: 'Successfully logged out' };
+  }
+
+  // Optional: Method to check if a token is blacklisted
+  isTokenBlacklisted(token: string): boolean {
+    return this.tokenBlacklist.has(token);
   }
 }

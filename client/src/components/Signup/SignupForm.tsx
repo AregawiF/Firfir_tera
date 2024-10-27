@@ -147,16 +147,13 @@ const SignupForm = () => {
     const onSubmit: SubmitHandler<SignupFields> = async (data) => {
         try {
             const response = await signup(data).unwrap();
-
             console.log('Signup Successful:', response);
-            
             dispatch(loginAction());
             localStorage.setItem('token', response.token);
             navigate('/');
-            // Handle successful signup (e.g., redirect to another page, show a success message, etc.)
-        } catch (err) {
+        } catch (err:any) {
             setError("root", {
-                message: "Error from the backend"
+                message: "Email already exists try loging in"
             });
         }
     };
@@ -276,7 +273,7 @@ const SignupForm = () => {
                     {isLoading ? 'Loading...' : 'Sign up'}
                 </button>
             </div>
-            {error && <p className='text-red-500 ml-32'>Error from the backend</p>}
+         {errors.root && <p className='text-red-500 ml-32'>{errors.root.message}</p>}
         </form>
     );
 }

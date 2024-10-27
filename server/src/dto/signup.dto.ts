@@ -19,7 +19,7 @@ export class SignUpDto {
   readonly password: string;
 
   @IsNotEmpty()
-  role: string | string[];
+  role: string;
 
   @IsOptional()
   @IsString()
