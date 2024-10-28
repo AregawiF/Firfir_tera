@@ -5,13 +5,16 @@ import NavBar from "./components/common/NavBar";
 import RecipePage from "./components/common/RecipePage";
 import Home from "./components/Home/Home";
 import Login from "./components/Login/Login";
-import Signup from "./components/Signup/Signup"; // Assuming you have a Signup component
+import Signup from "./components/Signup/Signup";
 import Onboarding from "./components/Onboarding/Onboarding";
+import ProtectedRoute from './components/ProtectedRoute/ProtectedRoute';
+import { AuthProvider } from './components/auth/AuthProvider';
 
 function App() {
   return (
+    <AuthProvider>
       <div className="">
-        <NavBar userRole="cook" />
+        <NavBar />
         <Routes>
           <Route path="/" element={<Onboarding />} />
           <Route path="/home" element={<Home />} />
@@ -19,11 +22,15 @@ function App() {
           <Route path="/signup" element={<Signup />} />
           <Route path="/onboarding" element={<Onboarding />} />
           <Route path="/recipe/:id" element={<RecipePage />} />
-          <Route path="/add-dish" element={<AddDishForm />} />
-          {/* Catch-all route for 404 page */}
+          <Route path="/add-dish" element={
+            <ProtectedRoute requiredRole="cook">
+              <AddDishForm />
+            </ProtectedRoute>
+          } />
           <Route path="*" element={<PageNotFound />} />
         </Routes>
       </div>
+    </AuthProvider>
   );
 }
 

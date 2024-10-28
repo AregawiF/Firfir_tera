@@ -5,6 +5,7 @@ import { useLoginMutation } from '../../services/authApi';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { login as loginAction } from '../../store/authSlice'; 
+import { useAuth } from '../auth/AuthProvider';
 
 
 type FormFields = {
@@ -14,6 +15,7 @@ type FormFields = {
 
 const LoginForm = () => {
     const [login, { isLoading, error }] = useLoginMutation();
+    const { login: authLogin } = useAuth(); // Use the login method from AuthProvider
     const { register, handleSubmit, setError, formState: { errors, isSubmitting } } = useForm<FormFields>();
     const dispatch = useDispatch();
     const navigate = useNavigate();
@@ -21,12 +23,10 @@ const LoginForm = () => {
         try {
             const response = await login(data).unwrap();
             console.log('Login Successful:', response);
-            localStorage.setItem('token', response.token); 
-
-            // Dispatch the login action to update the global state
+            
+            authLogin(response.token, response.role); 
             dispatch(loginAction()); 
             navigate('/');
-            // Handle successful login (e.g., redirect, store tokens, etc.)
         } catch (err) {
             setError("root", {
                 message: "Invalid email or password"

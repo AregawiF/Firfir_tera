@@ -31,8 +31,4 @@ export class AuthController {
     return this.authService.login(loginDto);
   }
 
-  @Post('logout')
-  logout(@Body('token') token: string): Promise<{ message: string }> {
-    return this.authService.logout(token);
-  }
 }

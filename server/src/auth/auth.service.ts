@@ -10,7 +10,6 @@ import { MongoError } from 'mongodb';
 
 @Injectable()
 export class AuthService {
-  private tokenBlacklist: Set<string> = new Set(); 
   constructor(
     @InjectModel(User.name)
     private userModel: Model<User>,
@@ -60,13 +59,4 @@ export class AuthService {
     return { token: token, role: user.role};
   }
 
-  async logout(token: string): Promise<{ message: string }> {
-    this.tokenBlacklist.add(token); // Add token to blacklist
-    return { message: 'Successfully logged out' };
-  }
-
-  // Optional: Method to check if a token is blacklisted
-  isTokenBlacklisted(token: string): boolean {
-    return this.tokenBlacklist.has(token);
-  }
 }
