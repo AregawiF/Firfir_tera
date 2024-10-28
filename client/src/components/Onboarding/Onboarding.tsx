@@ -5,11 +5,17 @@ import Signup from '../Signup/Signup';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../store/store';
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../auth/AuthProvider';
 
 const Onboarding = () => {
   const navigate = useNavigate();
   const isAuthenticated = useSelector((state: RootState) => state.auth.isAuthenticated);
   const [haveAccount, setHaveAccount] = useState(false);
+  const { isAuthenticated: authIsAuth } = useAuth();
+
+  if (authIsAuth){
+    navigate('/home');
+  }
 
   const toggleAccountType = () => {
       setHaveAccount(prev => !prev); // Use a functional update

@@ -9,6 +9,7 @@ import Signup from "./components/Signup/Signup";
 import Onboarding from "./components/Onboarding/Onboarding";
 import ProtectedRoute from './components/ProtectedRoute/ProtectedRoute';
 import { AuthProvider } from './components/auth/AuthProvider';
+import Mydishes from './components/Mydishes/Mydishes';
 
 function App() {
   return (
@@ -22,11 +23,23 @@ function App() {
           <Route path="/signup" element={<Signup />} />
           <Route path="/onboarding" element={<Onboarding />} />
           <Route path="/recipe/:id" element={<RecipePage />} />
-          <Route path="/add-dish" element={
-            <ProtectedRoute requiredRole="cook">
-              <AddDishForm />
-            </ProtectedRoute>
-          } />
+          <Route 
+            path="/add-dish" 
+            element={
+              <ProtectedRoute requiredRole="cook">
+                <AddDishForm />
+              </ProtectedRoute>
+            } />
+          <Route 
+            path="/my-dishes" 
+            element={
+              <ProtectedRoute requiredRole="cook"> 
+                <Mydishes/>
+              </ProtectedRoute>
+            } 
+          />
+
+          <Route path="/my-dishes" element={<Mydishes/>}/>
           <Route path="*" element={<PageNotFound />} />
         </Routes>
       </div>
