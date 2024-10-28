@@ -3,7 +3,7 @@ import { RecipeService } from './recipe.service';
 import { FileInterceptor } from '@nestjs/platform-express';
 // import { multerConfig } from 'src/Upload/multer.config';
 import { UploadService } from 'src/Upload/upload.service';
-import { Category, Recipe } from 'src/schemas/recipe.schema';
+import { Recipe } from 'src/schemas/recipe.schema';
 import { createRecipeDto, updateRecipeDto } from 'src/dto/recipe.dto';
 import { Roles } from '../decorators/roles.decorator';
 import { RolesGuard } from '../guards/roles.guard';
@@ -12,6 +12,7 @@ import { Role } from 'src/entities/role.enum';
 import { AuthGuard } from '@nestjs/passport';
 import storage from '../../multer-cloudinary.storage'; 
 import { multerConfig } from 'src/Upload/multer.config';
+import { memoryStorage } from 'multer';
 
 @Controller('recipes')
 @UseGuards(AuthGuard('jwt'), RolesGuard)
@@ -24,29 +25,20 @@ export class RecipeController {
   }
 
   @Post('new')
-  @UseInterceptors(FileInterceptor('image', multerConfig))
+  @UseInterceptors(FileInterceptor('image'))
   @Roles(Role.COOK)
   async createRecipe(
-    @Body("name") name: string,
-    @Body("description") description: string,
-    @Body("cookTime") cookTime: number,
-    @Body("people") people: number,
-    @Body("ingredients") ingredients: string[],
-    @Body("steps") steps: string[],
-    @Body("fasting") fasting: boolean,
-    @Body("type") type: Category,
-    @UploadedFile() file: Express.Multer.File,
+    @Body() createRecipeDto: createRecipeDto,
+    @UploadedFile() image: Express.Multer.File,
     @Headers("Authorization") authorization: string): Promise<Recipe> {
-    // this.uploadService.uploadFile(file)
-    // console.log("the file is", name,description,cookTime,people,ingredients,steps,fasting,type,file.path)
-    //  const imageUrl = file.path; // This should give you the URL of the uploaded image in Cloudinary
-    const uploadResult = await this.uploadService.uploadFile(file); 
-    const imageUrl = uploadResult.url;
+      if (!image){
+        throw new Error('No file provided');
+      }
+    const imageUrl = await this.recipeService.uploadImageToCloudinary(image); 
 
     console.log("The file URL is", imageUrl);
-
-    const createdRecipe = await this.recipeService.insertRecipe({ name, description, cookTime, people, ingredients, steps, fasting, type, image: imageUrl, cook_id: "1" }, authorization);
-    return createdRecipe;
+    const recipeData = { ...createRecipeDto, image: imageUrl, cook_id:"1" }; // Add the image URL to the DTO
+    return this.recipeService.insertRecipe(recipeData, authorization);
   }
 
   @Get('query')
@@ -83,7 +75,15 @@ export class RecipeController {
       return await this.recipeService.getByType(fasting)
     }
   }
-
+  
+  @Delete(':id')
+  @Roles(Role.COOK)
+  async deleteRecipe(
+    @Param('id')
+    id: string,
+  ): Promise<Recipe> {
+    return this.recipeService.deleteById(id)
+  }
   // @Patch(':id')
   // @Roles(Role.COOK)
   
@@ -146,12 +146,4 @@ export class RecipeController {
 
 
 
-  @Delete(':id')
-  @Roles(Role.COOK)
-  async deleteRecipe(
-    @Param('id')
-    id: string,
-  ): Promise<Recipe> {
-    return this.recipeService.deleteById(id)
-  }
 }

@@ -13,7 +13,7 @@
 
 
 import { MulterModuleOptions } from '@nestjs/platform-express';
-import storage from './multer-cloudinary.storage';
+import storage from '../../multer-cloudinary.storage';
 
 export const multerConfig: MulterModuleOptions = {
   storage, // Use your custom storage
@@ -26,6 +26,6 @@ export const multerConfig: MulterModuleOptions = {
     }
   },
   limits: {
-    fileSize: 15 * 1024 * 1024 // 5MB file size limit 
+    fileSize: 15 * 1024 * 1024 // 15MB file size limit 
   }
 };

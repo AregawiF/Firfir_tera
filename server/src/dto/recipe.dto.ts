@@ -1,47 +1,46 @@
 import { IsArray, IsBoolean, IsEnum, IsNotEmpty, IsNumber, IsOptional, IsString } from "class-validator";
-import { Category } from "../schemas/recipe.schema";
+// import { Category } from "../schemas/recipe.schema";
 
 
 export class createRecipeDto {
   @IsString()
   @IsNotEmpty()
-   name: string;
+  name: string;
 
   @IsString() 
-  @IsNotEmpty()
-   description: string;
+  @IsNotEmpty()   
+  description: string;
 
   @IsNumber()
   @IsNotEmpty()
-
-   cookTime: string;
+  cookTime: number;
 
   @IsNumber()
   @IsNotEmpty()
-
-  people: string;
+  people: number;
 
   @IsArray()
   @IsNotEmpty()
-
+  @IsString({ each: true }) 
   ingredients: string[];
 
   @IsArray()
   @IsNotEmpty()
-
+  @IsString({ each: true })
   steps: string[];
 
   @IsBoolean()
   @IsNotEmpty()
   fasting: boolean;
 
+  // @IsNotEmpty()
+  // @IsEnum(Category, { message: 'Please enter the appropriate category!!' })
   @IsNotEmpty()
-  @IsEnum(Category, { message: 'Please enter the appropriate category!!' })
-  type: Category;
+  mealType: string;
 
-  @IsString()
-  @IsNotEmpty()
-  image: string;
+  // @IsString()
+  // @IsNotEmpty()
+  // image: string;
 
   @IsOptional()
   @IsString()
@@ -78,12 +77,12 @@ export class updateRecipeDto {
   fasting: boolean;
 
   @IsOptional()
-  @IsEnum(Category, { message: 'Please enter the appropriate category!!' })
-  type: Category;
+  // @IsEnum(Category, { message: 'Please enter the appropriate category!!' })
+  mealType: string;
 
-  @IsString()
-  @IsOptional()
-  image: string;
+  // @IsString()
+  // @IsOptional()
+  // image: string;
 
   @IsString()
   @IsOptional()

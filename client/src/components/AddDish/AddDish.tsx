@@ -1,17 +1,18 @@
 import { useState } from 'react';
 import { useForm, SubmitHandler, useFieldArray } from 'react-hook-form';
 import { useCreateRecipeMutation } from '../../services/recipesApi';
+// import { uploadImageToCloudinary } from '../../utils/cloudinary.js';
 
 type DishFormFields = {
     name: string;
     description: string;
-    image: FileList;
     timeInMinutes: number;
     servings: number;
-    fasting: string;
-    mealType: string;
     ingredients: { name: string }[];
     steps: { step: string }[];
+    fasting: string;
+    mealType: string;
+    image: FileList;
 };
 
 const AddDishForm = () => {
@@ -35,27 +36,46 @@ const AddDishForm = () => {
     const [createRecipe, { isLoading, isSuccess, isError }] = useCreateRecipeMutation();
 
     const onSubmit: SubmitHandler<DishFormFields> = async (data) => {
-        const formData = new FormData();
-        formData.append('name', data.name);
-        formData.append('description', data.description);
-        formData.append('image', data.image[0]);
-        formData.append('timeInMinutes', data.timeInMinutes.toString());
-        formData.append('servings', data.servings.toString());
-        formData.append('fasting', data.fasting? 'true' : 'false');
-        formData.append('mealType', data.mealType);
-        data.ingredients.forEach((ingredient, index) => {
-        formData.append(`ingredients[${index}][name]`, ingredient.name);
-        });
-        data.steps.forEach((step, index) => {
-        formData.append(`steps[${index}][step]`, step.step);
-        });
+        // const imageUrl = await uploadImageToCloudinary(data.image[0]); 
+        console.log(data)
+        const formData = {
+        name: data.name,
+        description: data.description,
+        cookTime: Number(data.timeInMinutes),
+        people: Number(data.servings),
+        ingredients: data.ingredients.map(ingredient => ingredient.name),
+        steps: data.steps.map(step => step.step),
+        fasting: data.fasting === 'fasting',
+        mealType: data.mealType,
+        image: data.image, 
+    };
+
+        console.log(formData);
+        await createRecipe(formData);
+
+
+        // const formData = new FormData();
+        // formData.append('name', data.name);
+        // formData.append('description', data.description);
+        // formData.append('image', data.image[0]);
+        // formData.append('cookTime', data.timeInMinutes.toString()); 
+        // formData.append('people', data.servings.toString());
+        // // formData.append('fasting', data.fasting === 'fasting'? 'true': 'false');
+        // formData.append('fasting', (data.fasting === 'fasting').toString());
+        // formData.append('mealType', data.mealType);
+        // data.ingredients.forEach((ingredient) => {
+        // formData.append('ingredients', ingredient.name);
+        // });
+        // data.steps.forEach((step, index) => {
+        // formData.append('steps', step.step);
+        // });
 
         try {
         await createRecipe(formData).unwrap();
-        console.log('Form submitted successfully');
-        window.location.href = 'home.html';
-        } catch (error) {
-        console.error('Error:', error);
+            console.log('Form submitted successfully');
+            window.location.href = 'home.html';
+        } catch (error: any) {
+            console.error('Error:', error.data);
         }
     };
 
@@ -68,7 +88,7 @@ const AddDishForm = () => {
                 <textarea {...register("description", { required: "Description is required" })} placeholder="Description" className='border-2 border-gray-400 rounded-lg p-2 my-4 h-32 w-2/5'/>
                 {errors.description && <p className='text-red-500'>{errors.description.message}</p>}
 
-                <input {...register("image", { required: "Image is required" })} type="file" accept="image/*" className='my-4 w-2/5 border-2 rounded-md p-2'/>
+                <input {...register("image", { required: "Image is required" })} type="file" accept="image/*" className='my-4 w-2/5 border-2 rounded-md p-2' name='image'/>
                 {errors.image && <p className='text-red-500'>{errors.image.message}</p>}
                 <div className="time-serving w-2/5  flex justify-around">
                   <input {...register("timeInMinutes", { required: "Time is required" })} type="number" placeholder="Time (min)" className='border-2 border-gray-400 rounded-lg p-2 mt-4 w-1/5'/>
