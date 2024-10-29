@@ -1,8 +1,10 @@
 import RecipeCard from '../common/RecipeCard';
 import { useGetRecipesQuery } from '../../services/recipesApi';
 import { Recipe } from '../../types/Recipe';
+import { useParams } from 'react-router-dom';
 
 const Mydishes = () => {
+  const { id } = useParams<{ id: string }>();
   const { data: recipes = [], error, isLoading } = useGetRecipesQuery({});
   console.log(recipes);
 

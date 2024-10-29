@@ -5,7 +5,6 @@ import { Recipe } from 'src/schemas/recipe.schema';
 import { Query } from 'express-serve-static-core'
 import * as jwt from 'jsonwebtoken';
 import { createRecipeDto } from 'src/dto/recipe.dto';
-import { UploadService } from 'src/Upload/upload.service';
 
 interface JwtPayload {
   id: string;
@@ -17,16 +16,7 @@ export class RecipeService {
   constructor(
     @InjectModel(Recipe.name)
     private recipeModel: Model<Recipe>,
-    private readonly uploadService: UploadService,
-
   ) { }
-  async uploadImageToCloudinary(image: Express.Multer.File): Promise<string> {
-
-    const uploadResult = await this.uploadService.uploadFile(image);
-
-    return uploadResult.url;
-
-  }
 
   async showAll(): Promise<Recipe[]> {
     const recipes = await this.recipeModel.find()
@@ -108,7 +98,6 @@ export class RecipeService {
   }
 
   async insertRecipe(recipe: createRecipeDto, authorizationHeader: string): Promise<Recipe> {
-    console.log(recipe);
     const decodedToken = await this.decodeToken(authorizationHeader);
 
     if (decodedToken.role.includes('cook')) {

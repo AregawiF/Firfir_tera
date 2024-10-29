@@ -38,8 +38,8 @@ export class Recipe {
   @Prop()
   mealType: string;
 
-  // @Prop()
-  // image: string;
+  @Prop()
+  image: string;
 
   @Prop()
   cook_id: string;

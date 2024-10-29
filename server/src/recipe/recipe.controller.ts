@@ -1,8 +1,6 @@
 import { Body, Controller, Delete, Get, Param, Patch, Post, Put, Query, Headers, UseGuards, UploadedFile, UseInterceptors } from '@nestjs/common';
 import { RecipeService } from './recipe.service';
 import { FileInterceptor } from '@nestjs/platform-express';
-// import { multerConfig } from 'src/Upload/multer.config';
-import { UploadService } from 'src/Upload/upload.service';
 import { Recipe } from 'src/schemas/recipe.schema';
 import { createRecipeDto, updateRecipeDto } from 'src/dto/recipe.dto';
 import { Roles } from '../decorators/roles.decorator';
@@ -10,15 +8,12 @@ import { RolesGuard } from '../guards/roles.guard';
 import { Query as ExpressQuery } from 'express-serve-static-core'
 import { Role } from 'src/entities/role.enum';
 import { AuthGuard } from '@nestjs/passport';
-import storage from '../../multer-cloudinary.storage'; 
-import { multerConfig } from 'src/Upload/multer.config';
-import { memoryStorage } from 'multer';
+import { CloudinaryService } from 'src/Upload/cloudinary.service';
 
 @Controller('recipes')
 @UseGuards(AuthGuard('jwt'), RolesGuard)
 export class RecipeController {
-  constructor(private recipeService: RecipeService, private readonly uploadService: UploadService) { }
-
+  constructor(private recipeService: RecipeService, private cloudinaryService: CloudinaryService) { }
   @Get()
   async getAllRecipes(): Promise<Recipe[]> {
     return this.recipeService.showAll()
@@ -28,17 +23,28 @@ export class RecipeController {
   @UseInterceptors(FileInterceptor('image'))
   @Roles(Role.COOK)
   async createRecipe(
-    @Body() createRecipeDto: createRecipeDto,
+    @Body() newRecipeData: createRecipeDto,
     @UploadedFile() image: Express.Multer.File,
     @Headers("Authorization") authorization: string): Promise<Recipe> {
-      if (!image){
-        throw new Error('No file provided');
-      }
-    const imageUrl = await this.recipeService.uploadImageToCloudinary(image); 
 
-    console.log("The file URL is", imageUrl);
-    const recipeData = { ...createRecipeDto, image: imageUrl, cook_id:"1" }; // Add the image URL to the DTO
-    return this.recipeService.insertRecipe(recipeData, authorization);
+      if (!image) {
+        throw new Error('Image file is required');
+      }
+      console.log("The image is", image);
+      const imageUrl = await this.cloudinaryService.uploadImage(image.buffer, 'recipes');
+
+
+      console.log("The file URL is", imageUrl);
+      
+      const recipeData = {
+        ...newRecipeData,
+        ingredients: newRecipeData.ingredients,
+        steps: newRecipeData.steps,
+        image: imageUrl,
+        cook_id: "1"
+      };
+      console.log("The recipe data is", recipeData);
+      return this.recipeService.insertRecipe(recipeData, authorization);
   }
 
   @Get('query')
@@ -48,7 +54,6 @@ export class RecipeController {
 
   @Get(':id')
   async getProduct(@Param('id') prodId: string) {
-    console.log(prodId)
     return await this.recipeService.getSingleRecipe(prodId);
   }
 

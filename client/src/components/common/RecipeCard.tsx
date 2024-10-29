@@ -7,9 +7,8 @@ const RecipeCard = ({ recipe }: { recipe: Recipe }) => {
       <div className="p-6 "> 
         <h2 className="text-3xl font-bold text-gray-800 mb-2">{recipe.name}</h2> 
         <p className="text-gray-600 mb-4">
-          Cook Time: <span className="font-semibold">{recipe.cookTime} mins</span> | Serves: <span className="font-semibold">{recipe.serves}</span> | Fasting: <span className="font-semibold">{recipe.fasting ? 'Yes' : 'No'}</span>
+          ⏱️Cook Time: <span className="font-semibold">{recipe.cookTime} mins</span> | 👥 Serves: <span className="font-semibold">{recipe.people}</span> <br />🌱Fasting: <span className="font-semibold">{recipe.fasting ? 'Yes' : 'No'}</span> | 🍽️ Type: <span className="font-semibold">{recipe.mealType}</span>
         </p>
-        <p className="text-gray-600">Type: <span className="font-semibold">{recipe.type}</span></p>
       </div>
     </div>
   );

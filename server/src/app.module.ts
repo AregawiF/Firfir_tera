@@ -17,6 +17,7 @@ import * as bodyParser from 'body-parser';
       envFilePath: '.env',
       isGlobal: true,
     }),
+    
     MongooseModule.forRoot(process.env.DB_URI),
     MongooseModule.forFeature([{ name: User.name, schema: UserSchema }]),
     AuthModule, RecipeModule, UserModule,

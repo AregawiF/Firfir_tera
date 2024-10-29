@@ -3,11 +3,11 @@ export interface Recipe {
   name: string;
   description: string;
   cookTime: string;
-  serves: string;
+  people: string;
   ingredients: string[];
   steps: string[];
   fasting: boolean;
-  type: string;
+  mealType: string;
   image: string;
   cookId: string
 }

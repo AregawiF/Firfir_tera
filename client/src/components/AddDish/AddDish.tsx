@@ -1,13 +1,12 @@
 import { useState } from 'react';
 import { useForm, SubmitHandler, useFieldArray } from 'react-hook-form';
 import { useCreateRecipeMutation } from '../../services/recipesApi';
-// import { uploadImageToCloudinary } from '../../utils/cloudinary.js';
 
 type DishFormFields = {
     name: string;
     description: string;
-    timeInMinutes: number;
-    servings: number;
+    timeInMinutes: string;
+    servings: string;
     ingredients: { name: string }[];
     steps: { step: string }[];
     fasting: string;
@@ -23,6 +22,7 @@ const AddDishForm = () => {
         }
     });
 
+
     const { fields: ingredientFields, append: addIngredient, remove: removeIngredient } = useFieldArray({
         control,
         name: "ingredients"
@@ -36,46 +36,44 @@ const AddDishForm = () => {
     const [createRecipe, { isLoading, isSuccess, isError }] = useCreateRecipeMutation();
 
     const onSubmit: SubmitHandler<DishFormFields> = async (data) => {
-        // const imageUrl = await uploadImageToCloudinary(data.image[0]); 
-        console.log(data)
-        const formData = {
-        name: data.name,
-        description: data.description,
-        cookTime: Number(data.timeInMinutes),
-        people: Number(data.servings),
-        ingredients: data.ingredients.map(ingredient => ingredient.name),
-        steps: data.steps.map(step => step.step),
-        fasting: data.fasting === 'fasting',
-        mealType: data.mealType,
-        image: data.image, 
-    };
+        console.log('data from form -- >', data)
+        // const formData = {
+        //     name: data.name,
+        //     description: data.description,
+        //     cookTime: Number(data.timeInMinutes),
+        //     people: Number(data.servings),
+        //     ingredients: data.ingredients.map(ingredient => ingredient.name),
+        //     steps: data.steps.map(step => step.step),
+        //     fasting: data.fasting === 'fasting',
+        //     mealType: data.mealType,
+        //     // image: data.image[0], 
+        // };
+        const formData = new FormData();
+        formData.append("name", data.name);
+        formData.append("description", data.description);
+        formData.append("cookTime", String(data.timeInMinutes));
+        formData.append("people", String(data.servings));
+        formData.append("fasting", data.fasting === 'fasting' ? 'true' : 'false');
+        formData.append("mealType", data.mealType);
+        formData.append("ingredients", JSON.stringify(data.ingredients.map(ingredient => ingredient.name)));
+        formData.append("steps", JSON.stringify(data.steps.map(step => step.step)));
+        
+        // Append the image file if available
+        if (data.image && data.image.length > 0) {
+            formData.append("image", data.image[0]); // Append the first file in the FileList
+        } else {
+            console.error("Image file is required");
+            return;
+        }
 
-        console.log(formData);
-        await createRecipe(formData);
-
-
-        // const formData = new FormData();
-        // formData.append('name', data.name);
-        // formData.append('description', data.description);
-        // formData.append('image', data.image[0]);
-        // formData.append('cookTime', data.timeInMinutes.toString()); 
-        // formData.append('people', data.servings.toString());
-        // // formData.append('fasting', data.fasting === 'fasting'? 'true': 'false');
-        // formData.append('fasting', (data.fasting === 'fasting').toString());
-        // formData.append('mealType', data.mealType);
-        // data.ingredients.forEach((ingredient) => {
-        // formData.append('ingredients', ingredient.name);
-        // });
-        // data.steps.forEach((step, index) => {
-        // formData.append('steps', step.step);
-        // });
+        console.log('formdata', formData);
 
         try {
-        await createRecipe(formData).unwrap();
-            console.log('Form submitted successfully');
-            window.location.href = 'home.html';
+            await createRecipe(formData).unwrap();
+                console.log('Form submitted successfully');
+                window.location.href = 'home.html';
         } catch (error: any) {
-            console.error('Error:', error.data);
+            console.error('Errorrrr:', error.data);
         }
     };
 

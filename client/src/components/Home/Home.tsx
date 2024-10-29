@@ -1,12 +1,11 @@
 import RecipeCard from '../common/RecipeCard';
 import { useGetRecipesQuery } from '../../services/recipesApi';
 import { Recipe } from '../../types/Recipe';
+import { Link } from 'react-router-dom';
 
 
 const Home = () => {
-
   const { data: recipes = [], error, isLoading } = useGetRecipesQuery({});
-  console.log(recipes);
 
   if (isLoading) return <div>Loading...</div>;
   if (error) {
@@ -22,7 +21,9 @@ const Home = () => {
         </div>
       ) : (
         recipes.map((recipe: Recipe) => (
-          <RecipeCard key={recipe._id} recipe={recipe} />
+          <Link to={`/recipe/${recipe._id}`} key={recipe._id}>
+            <RecipeCard key={recipe._id} recipe={recipe} />
+          </Link>
         ))
       )}
     </div>

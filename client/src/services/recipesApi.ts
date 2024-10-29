@@ -28,7 +28,13 @@ export const recipesApi = createApi({
         body: formData,
       }),
     }),
+    getSingleRecipe: builder.query({
+      query: (id: string) => `/recipes/${id}`,
+    }),
+    getRecipeByCookId: builder.query({
+      query: (id: string) => `/recipes/myrecipes/${id}`,
+    }),
   }),
 });
 
-export const { useGetRecipesQuery, useCreateRecipeMutation } = recipesApi;
+export const { useGetRecipesQuery, useCreateRecipeMutation, useGetSingleRecipeQuery } = recipesApi;

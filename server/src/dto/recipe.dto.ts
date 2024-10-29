@@ -1,5 +1,5 @@
-import { IsArray, IsBoolean, IsEnum, IsNotEmpty, IsNumber, IsOptional, IsString } from "class-validator";
-// import { Category } from "../schemas/recipe.schema";
+import { Transform } from "class-transformer";
+import { IsArray, IsBoolean, IsNotEmpty, IsNumber, IsOptional, IsString } from "class-validator";
 
 
 export class createRecipeDto {
@@ -11,36 +11,35 @@ export class createRecipeDto {
   @IsNotEmpty()   
   description: string;
 
+  @Transform(({ value }) => parseInt(value))
   @IsNumber()
   @IsNotEmpty()
   cookTime: number;
 
+  @Transform(({ value }) => parseInt(value)) 
   @IsNumber()
   @IsNotEmpty()
   people: number;
 
+  @Transform(({ value }) => JSON.parse(value)) 
   @IsArray()
   @IsNotEmpty()
   @IsString({ each: true }) 
   ingredients: string[];
 
+  @Transform(({ value }) => JSON.parse(value)) 
   @IsArray()
   @IsNotEmpty()
   @IsString({ each: true })
   steps: string[];
 
+  @Transform(({ value }) => value === 'true')
   @IsBoolean()
   @IsNotEmpty()
   fasting: boolean;
 
-  // @IsNotEmpty()
-  // @IsEnum(Category, { message: 'Please enter the appropriate category!!' })
   @IsNotEmpty()
   mealType: string;
-
-  // @IsString()
-  // @IsNotEmpty()
-  // image: string;
 
   @IsOptional()
   @IsString()
@@ -82,7 +81,7 @@ export class updateRecipeDto {
 
   // @IsString()
   // @IsOptional()
-  // image: string;
+  // image: File;
 
   @IsString()
   @IsOptional()
