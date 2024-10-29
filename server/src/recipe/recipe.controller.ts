@@ -55,7 +55,7 @@ export class RecipeController {
 
   @Get('/myrecipes')
   @Roles(Role.COOK)
-  async getRecipesByCookId(@Request() req): Promise<Recipe[]> {
+  async getRecipesOfCook(@Request() req): Promise<Recipe[]> {
     const token = req.headers.authorization?.split(' ')[1]; // Extract token from headers
     console.log('here', token)
     if (!token) {

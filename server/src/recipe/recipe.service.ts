@@ -38,8 +38,9 @@ export class RecipeService {
   }
 
   async getRecipesByCookId(cookId: string): Promise<Recipe[]> {
+    let recipes;
     try {
-      const recipes = await this.recipeModel.find({ cook_id: cookId }).exec();
+      recipes = await this.recipeModel.find({ cook_id: cookId }).exec();
       // if (!recipes || recipes.length === 0) {
       //   throw new NotFoundException('No recipes found');
       // }

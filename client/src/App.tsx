@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { Routes, Route } from 'react-router-dom';
 import PageNotFound from "./components/404/PageNotFound";
 import AddDishForm from "./components/AddDish/AddDish";
 import NavBar from "./components/common/NavBar";
@@ -15,8 +15,10 @@ import ProfilePage from './components/Profile/ProfilePage';
 function App() {
   return (
     <AuthProvider>
-      <div className="">
-        <NavBar />
+      <div className="h-full">
+        <NavBar/>
+        <div className="child ">
+
         <Routes>
           <Route path="/" element={<Onboarding />} />
           <Route path="/home" element={<Home />} />
@@ -39,11 +41,12 @@ function App() {
                 <Mydishes/>
               </ProtectedRoute>
             } 
-          />
+            />
 
           <Route path="/my-dishes" element={<Mydishes/>}/>
           <Route path="*" element={<PageNotFound />} />
         </Routes>
+        </div>
       </div>
     </AuthProvider>
   );

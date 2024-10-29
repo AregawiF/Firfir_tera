@@ -5,7 +5,7 @@ import { useAuth } from '../auth/AuthProvider';
 import { logout } from '../../store/authSlice';
 
 const NavBar: React.FC = () => {
-  const { isAuthenticated, userRole, logout: authLogout } = useAuth(); 
+  const { userRole, logout: authLogout } = useAuth(); 
   console.log(userRole)
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -23,7 +23,7 @@ const NavBar: React.FC = () => {
 
   return (
     <div>
-        <div className="flex justify-between bg-gray-100 p-3 py-5">
+        <div className="flex justify-between bg-gray-100 p-3 py-5 ">
             <div className="flex ml-6 w-2/12">
                 <img src="/Icons/Firfir_Logo.png" alt="Logo" className='w-20 rounded-sm'/>
                 <div className="text-xl font-semibold ml-2 my-auto ">Firfir Tera</div>

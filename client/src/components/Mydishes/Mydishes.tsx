@@ -5,7 +5,7 @@ import { useGetMyDishesQuery } from '../../services/recipesApi';
 
 const Mydishes = () => {
   const { data: recipes = [], error, isLoading } = useGetMyDishesQuery({});
-
+  console.log('sdfs df',recipes);
   if (isLoading) return <div>Loading...</div>;
   if (error) {
     const errorMessage = 'status' in error ? `Error fetching recipes: ${error.status}` : 'Error fetching recipes';
