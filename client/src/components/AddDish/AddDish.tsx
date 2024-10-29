@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useForm, SubmitHandler, useFieldArray } from 'react-hook-form';
 import { useCreateRecipeMutation } from '../../services/recipesApi';
+import { useNavigate } from 'react-router-dom';
 
 type DishFormFields = {
     name: string;
@@ -15,6 +16,7 @@ type DishFormFields = {
 };
 
 const AddDishForm = () => {
+    const navigate = useNavigate();
     const { register, handleSubmit, control, formState: { errors, isSubmitting } } = useForm<DishFormFields>({
         defaultValues: {
             ingredients: [{ name: '' }],
@@ -71,7 +73,7 @@ const AddDishForm = () => {
         try {
             await createRecipe(formData).unwrap();
                 console.log('Form submitted successfully');
-                window.location.href = 'home.html';
+                navigate('/home');
         } catch (error: any) {
             console.error('Errorrrr:', error.data);
         }

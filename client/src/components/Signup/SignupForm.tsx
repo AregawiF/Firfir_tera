@@ -26,8 +26,8 @@ const SignupForm = () => {
         try {
             const response = await signup(data).unwrap();
             console.log('Signup Successful:', response);
-            dispatch(loginAction());
             authLogin(response.token, response.role);
+            dispatch(loginAction());             
             navigate('/home');
         } catch (err:any) {
             setError("root", {

@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post, Put, Query, Headers, UseGuards, UploadedFile, UseInterceptors } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Patch, Post, Put, Query, Headers, UseGuards, UploadedFile, UseInterceptors, UnauthorizedException, Request } from '@nestjs/common';
 import { RecipeService } from './recipe.service';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { Recipe } from 'src/schemas/recipe.schema';
@@ -9,11 +9,13 @@ import { Query as ExpressQuery } from 'express-serve-static-core'
 import { Role } from 'src/entities/role.enum';
 import { AuthGuard } from '@nestjs/passport';
 import { CloudinaryService } from 'src/Upload/cloudinary.service';
+import { JwtService } from '@nestjs/jwt';
+
 
 @Controller('recipes')
 @UseGuards(AuthGuard('jwt'), RolesGuard)
 export class RecipeController {
-  constructor(private recipeService: RecipeService, private cloudinaryService: CloudinaryService) { }
+  constructor(private recipeService: RecipeService, private cloudinaryService: CloudinaryService, private jwtService: JwtService,) { }
   @Get()
   async getAllRecipes(): Promise<Recipe[]> {
     return this.recipeService.showAll()
@@ -30,12 +32,7 @@ export class RecipeController {
       if (!image) {
         throw new Error('Image file is required');
       }
-      console.log("The image is", image);
       const imageUrl = await this.cloudinaryService.uploadImage(image.buffer, 'recipes');
-
-
-      console.log("The file URL is", imageUrl);
-      
       const recipeData = {
         ...newRecipeData,
         ingredients: newRecipeData.ingredients,
@@ -43,7 +40,6 @@ export class RecipeController {
         image: imageUrl,
         cook_id: "1"
       };
-      console.log("The recipe data is", recipeData);
       return this.recipeService.insertRecipe(recipeData, authorization);
   }
 
@@ -57,10 +53,17 @@ export class RecipeController {
     return await this.recipeService.getSingleRecipe(prodId);
   }
 
-  @Get('myrecipes/:cookId')
+  @Get('/myrecipes')
   @Roles(Role.COOK)
-  async getRecipesByCookId(@Param('cookId') cookId: string): Promise<Recipe[]> {
-    console.log(cookId)
+  async getRecipesByCookId(@Request() req): Promise<Recipe[]> {
+    const token = req.headers.authorization?.split(' ')[1]; // Extract token from headers
+    console.log('here', token)
+    if (!token) {
+      throw new UnauthorizedException('Token not found');
+    }
+
+    const decoded = this.jwtService.verify(token); // Decode the token
+    const cookId = decoded.id; 
     return this.recipeService.getRecipesByCookId(cookId);
   }
 

@@ -10,6 +10,7 @@ import Onboarding from "./components/Onboarding/Onboarding";
 import ProtectedRoute from './components/ProtectedRoute/ProtectedRoute';
 import { AuthProvider } from './components/auth/AuthProvider';
 import Mydishes from './components/Mydishes/Mydishes';
+import ProfilePage from './components/Profile/ProfilePage';
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
           <Route path="/signup" element={<Signup />} />
           <Route path="/onboarding" element={<Onboarding />} />
           <Route path="/recipe/:id" element={<RecipePage />} />
+          <Route path="/profile" element={<ProfilePage />} />
           <Route 
             path="/add-dish" 
             element={

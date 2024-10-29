@@ -1,8 +1,5 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import { RootState } from '../store/store'; // Adjust the path as necessary
-import { useSelector } from 'react-redux';
 
-// i want to add an additional endpoint for creating a recipe
 const baseQuery = fetchBaseQuery({
   baseUrl: 'http://localhost:3000',
   prepareHeaders: (headers, { getState }) => {
@@ -31,10 +28,11 @@ export const recipesApi = createApi({
     getSingleRecipe: builder.query({
       query: (id: string) => `/recipes/${id}`,
     }),
-    getRecipeByCookId: builder.query({
-      query: (id: string) => `/recipes/myrecipes/${id}`,
+    getMyDishes: builder.query({
+      query: () => '/recipes/myrecipes/',
     }),
+    
   }),
 });
 
-export const { useGetRecipesQuery, useCreateRecipeMutation, useGetSingleRecipeQuery } = recipesApi;
+export const { useGetRecipesQuery, useCreateRecipeMutation, useGetSingleRecipeQuery, useGetMyDishesQuery } = recipesApi;

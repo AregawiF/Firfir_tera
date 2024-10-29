@@ -39,7 +39,7 @@ const NavBar: React.FC = () => {
                         <li className='my-auto'><Link to="/add-dish">Add Dish</Link></li>
                       </>
                     )}
-                    <li className='my-auto'><Link to="/about-us">About Us</Link></li>
+                    <li className='my-auto'><Link to="/favorites">Favorites</Link></li>
                   </ul>
                 </nav>
 
@@ -55,7 +55,7 @@ const NavBar: React.FC = () => {
                     <div className="absolute right-0 mt-2 w-40 bg-white border border-gray-200 rounded-md shadow-lg">
                       <ul>
                         <li className="px-4 py-2 hover:bg-gray-100">
-                          <Link to="/profile">My Profile</Link>
+                          <Link to={`/profile`}>My Profile</Link>
                         </li>
                         <li className="px-4 py-2 hover:bg-gray-100">
                           <button
@@ -71,39 +71,7 @@ const NavBar: React.FC = () => {
 
               </div>
             </div>
-            
-{/*             
-            <div className="flex mr-6 place-self-end relative">
-                <img
-                  src="/icons/account.svg"
-                  alt="account"
-                  className="w-12 cursor-pointer"
-                  onClick={toggleDropdown}
-                />
-
-                {isDropdownOpen && (
-                  <div className="absolute right-0 mt-2 w-40 bg-white border border-gray-200 rounded-md shadow-lg">
-                    <ul>
-                      <li className="px-4 py-2 hover:bg-gray-100">
-                        <Link to="/profile">My Profile</Link>
-                      </li>
-                      <li className="px-4 py-2 hover:bg-gray-100">
-                        <button
-                          onClick={handleLogout}
-                          disabled={isLoading}
-                          className="w-full text-left text-red-700 font-bold"
-                        >
-                          Logout
-                        </button>
-                      </li>
-                    </ul>
-                  </div>
-                )}
-          </div> */}
-
-
         </div>
-
     </div>
   )
 }

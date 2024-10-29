@@ -30,7 +30,7 @@ export class AuthService {
         role: role,
       });
 
-      const token = this.jwtService.sign({ id: user._id, role: user.role });
+      const token = this.jwtService.sign({ id: user._id, user: user.role });
 
       return { token: token, role: user.role};
     } catch (error) {

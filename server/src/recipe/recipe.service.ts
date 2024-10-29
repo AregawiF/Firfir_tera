@@ -24,7 +24,6 @@ export class RecipeService {
   }
 
   async getSingleRecipe(recipeId: string) {
-    console.log(recipeId)
     let recipe;
     try {
       recipe = await this.recipeModel.findById(recipeId).exec();
@@ -41,12 +40,13 @@ export class RecipeService {
   async getRecipesByCookId(cookId: string): Promise<Recipe[]> {
     try {
       const recipes = await this.recipeModel.find({ cook_id: cookId }).exec();
-      if (!recipes || recipes.length === 0) {
-        throw new NotFoundException('No recipes found');
-      }
+      // if (!recipes || recipes.length === 0) {
+      //   throw new NotFoundException('No recipes found');
+      // }
       return recipes;
     } catch (error) {
-      throw new NotFoundException('No recipes found');
+      // throw new NotFoundException('No recipes found');
+      return [];
     }
   }
 
@@ -67,7 +67,6 @@ export class RecipeService {
   }
 
   async getByType(type) {
-    console.log(type)
     let recipe
     try {
       recipe = await this.recipeModel.find({ type: type })
@@ -160,7 +159,6 @@ export class RecipeService {
     type,
     image
 ){
-    // console.log(recipeId, recipeName)
     let updated;
     try{
         updated = await this.recipeModel.findById(recipeId);
