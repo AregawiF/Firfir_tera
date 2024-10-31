@@ -25,7 +25,7 @@ const NavBar: React.FC = () => {
     <div>
         <div className="flex justify-between bg-gray-100 p-3 py-5 ">
             <div className="flex ml-6 w-2/12">
-                <img src="/Icons/Firfir_Logo.png" alt="Logo" className='w-20 rounded-sm'/>
+                <img src="/icons/Firfir_Logo.png" alt="Logo" className='w-20 rounded-sm'/>
                 <div className="text-xl font-semibold ml-2 my-auto ">Firfir Tera</div>
             </div>
             <div className="w-11/12 flex align-middle">

@@ -1,5 +1,4 @@
-import React from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useGetAccountQuery, useDeleteAccountMutation } from '../../services/usersApi';
 
 const ProfilePage = () => {

@@ -29,7 +29,7 @@ export const recipesApi = createApi({
       query: (id: string) => `/recipes/${id}`,
     }),
     getMyDishes: builder.query({
-      query: () => '/recipes/myrecipes/',
+      query: () => '/recipes/myrecipes',
     }),
     
   }),

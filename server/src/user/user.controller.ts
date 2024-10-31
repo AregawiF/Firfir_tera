@@ -19,7 +19,7 @@ export class UserController {
       throw new UnauthorizedException('Token not found');
     }
 
-    const decoded = this.jwtService.verify(token); // Decode the token
+    const decoded = this.jwtService.verify(token); 
     const userId = decoded.id; 
     return this.userService.getById(userId);
   }

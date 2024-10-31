@@ -48,11 +48,6 @@ export class RecipeController {
     return this.recipeService.find(query)
   }
 
-  @Get(':id')
-  async getProduct(@Param('id') prodId: string) {
-    return await this.recipeService.getSingleRecipe(prodId);
-  }
-
   @Get('/myrecipes')
   @Roles(Role.COOK)
   async getRecipesOfCook(@Request() req): Promise<Recipe[]> {
@@ -61,12 +56,17 @@ export class RecipeController {
     if (!token) {
       throw new UnauthorizedException('Token not found');
     }
-
-    const decoded = this.jwtService.verify(token); // Decode the token
+    
+    const decoded = this.jwtService.verify(token); 
     const cookId = decoded.id; 
     return this.recipeService.getRecipesByCookId(cookId);
   }
 
+  @Get(':id')
+  async getProduct(@Param('id') prodId: string) {
+    return await this.recipeService.getSingleRecipe(prodId);
+  }
+  
   @Get(':title')
   async searchRecipe(
     @Param('title') title: string,
