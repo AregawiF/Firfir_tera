@@ -91,5 +91,8 @@ export class updateRecipeDto {
   @IsOptional()
   cook_id: string;
 
+  @IsString()
+  @IsOptional()
+  cook_name: string;
 }
 

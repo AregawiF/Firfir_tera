@@ -26,7 +26,8 @@ const RecipeCard = ({ recipe }: { recipe: Recipe }) => {
           <img src={`${isFav ? '/icons/favorite_filled.svg' : '/icons/favorite.svg'}`} alt="" className='w-7' onClick={handleFavClick}/>
         </div>
         <p className="text-gray-600 mb-4">
-          ⏱️Cook Time: <span className="font-semibold">{recipe.cookTime} mins</span> | 👥 Serves: <span className="font-semibold">{recipe.people}</span> <br />🌱Fasting: <span className="font-semibold">{recipe.fasting ? 'Yes' : 'No'}</span> | 🍽️ Type: <span className="font-semibold">{recipe.mealType}</span>
+          ⏱️Cook Time: <span className="font-semibold">{recipe.cookTime} mins</span> | 👥 Serves: <span className="font-semibold">{recipe.people}</span> <br />🌱Fasting: <span className="font-semibold">{recipe.fasting ? 'Yes' : 'No'}</span> | 🍽️ Type: <span className="font-semibold">{recipe.mealType}</span> 🧑‍🍳 Cook:
+          <span className="font-semibold">{recipe.cook_name}</span>
         </p>
         {notification && (
                     <Notification message={notification} onClose={handleCloseNotification} />

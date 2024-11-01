@@ -1,16 +1,7 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
-// import { Category } from './category.enum';
 
 export type RecipeDocument = Recipe & Document;
-// export enum Category {
-//   FASTING = 'Fasting',
-//   NON_FASTING = 'Non-Fasting',
-//   BREAKFAST = 'Breakfast',
-//   LUNCH = 'Lunch',
-//   SNACK = 'Snack',
-//   DINNER = 'Dinner',
-// }
 
 @Schema({ timestamps: true })
 export class Recipe {
@@ -43,6 +34,9 @@ export class Recipe {
 
   @Prop()
   cook_id: string;
+
+  @Prop()
+  cook_name: string;
 
 }
 

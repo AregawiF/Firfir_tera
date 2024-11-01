@@ -9,5 +9,6 @@ export interface Recipe {
   fasting: boolean;
   mealType: string;
   image: string;
-  cookId: string
+  cookId: string;
+  cook_name: string;
 }

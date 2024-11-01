@@ -20,6 +20,7 @@ JwtModule.registerAsync({
       },
     }),],
   providers: [UserService],
+  exports: [UserService],
   controllers: [UserController]
 })
 export class UserModule { }

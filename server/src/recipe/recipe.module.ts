@@ -6,6 +6,7 @@ import { RecipeSchema } from 'src/schemas/recipe.schema';
 import { CloudinaryModule } from 'src/Upload/cloudinart.module';
 import { JwtModule } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
+import { UserModule } from 'src/user/user.module';
 
 
 @Module({
@@ -19,7 +20,7 @@ import { ConfigService } from '@nestjs/config';
           },
         };
       },
-    }),],
+    }), UserModule],
   controllers: [RecipeController],
   providers: [RecipeService],
   exports:[RecipeService]

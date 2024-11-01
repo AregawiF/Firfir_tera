@@ -30,6 +30,7 @@ const RecipePage = () => {
           <p>👥 Serves: {recipe.people}</p>
           <p>🌱 Fasting: {recipe.fasting ? 'Yes' : 'No'}</p>
           <p>🍽️ Meal Type: {recipe.mealType}</p>
+          <p>🧑‍🍳 Cook: {recipe.cook_name}</p>
         </div>
       </div>
 
