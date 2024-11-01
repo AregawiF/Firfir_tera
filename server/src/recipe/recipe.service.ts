@@ -5,6 +5,8 @@ import { Recipe } from 'src/schemas/recipe.schema';
 import { Query } from 'express-serve-static-core'
 import * as jwt from 'jsonwebtoken';
 import { createRecipeDto } from 'src/dto/recipe.dto';
+import { UserService } from '../user/user.service';
+
 
 interface JwtPayload {
   id: string;
@@ -16,6 +18,7 @@ export class RecipeService {
   constructor(
     @InjectModel(Recipe.name)
     private recipeModel: Model<Recipe>,
+    private userService: UserService,
   ) { }
 
   async showAll(): Promise<Recipe[]> {
@@ -99,9 +102,11 @@ export class RecipeService {
 
   async insertRecipe(recipe: createRecipeDto, authorizationHeader: string): Promise<Recipe> {
     const decodedToken = await this.decodeToken(authorizationHeader);
+    const cook = await this.userService.getUserById(decodedToken.id);
 
     if (decodedToken.role.includes('cook')) {
       recipe.cook_id = decodedToken.id;
+      recipe.cook_name = cook.name;
     } 
     else {
       throw new UnauthorizedException('Only cooks are allowed to create recipes');

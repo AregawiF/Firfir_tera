@@ -18,8 +18,8 @@ const NavBar: React.FC = () => {
   };
 
     const toggleDropdown = () => {
-    setIsDropdownOpen(!isDropdownOpen);
-  };
+      setIsDropdownOpen(!isDropdownOpen);
+    };
 
   return (
     <div>
@@ -54,10 +54,10 @@ const NavBar: React.FC = () => {
                   {isDropdownOpen && (
                     <div className="absolute right-0 mt-2 w-40 bg-white border border-gray-200 rounded-md shadow-lg">
                       <ul>
-                        <li className="px-4 py-2 hover:bg-gray-100">
+                        <li className="px-4 py-2 hover:bg-gray-100 z-20">
                           <Link to={`/profile`}>My Profile</Link>
                         </li>
-                        <li className="px-4 py-2 hover:bg-gray-100">
+                        <li className="px-4 py-2 hover:bg-gray-100 z-20">
                           <button
                             onClick={handleLogout}
                             className="w-full text-left text-red-700 font-bold"

@@ -21,7 +21,7 @@ export class UserController {
 
     const decoded = this.jwtService.verify(token); 
     const userId = decoded.id; 
-    return this.userService.getById(userId);
+    return this.userService.getUserById(userId);
   }
 
 

@@ -45,6 +45,10 @@ export class createRecipeDto {
   @IsString()
   cook_id: string;
 
+  @IsOptional()
+  @IsString()
+  cook_name: string;
+
 }
 export class updateRecipeDto {
   @IsString()

@@ -13,7 +13,7 @@ export class UserService {
     private userModel: Model<User>,
   ) { }
 
-  async getById(userId: string) {
+  async getUserById(userId: string) {
 
     let user;
     try {
@@ -34,7 +34,7 @@ export class UserService {
         updated = await this.userModel.findById(userId).exec();
     }
     catch{
-        throw new NotFoundException('could not find reicpe')
+        throw new NotFoundException('could not find user')
     }
 
     if (firstName){
