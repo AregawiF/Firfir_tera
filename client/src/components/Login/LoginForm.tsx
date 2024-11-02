@@ -22,7 +22,6 @@ const LoginForm = () => {
     const onSubmit: SubmitHandler<FormFields> = async (data) => {
         try {
             const response = await login(data).unwrap();
-            console.log('Login Successful:', response);
             authLogin(response.token, response.role); 
             dispatch(loginAction()); 
             navigate('/');

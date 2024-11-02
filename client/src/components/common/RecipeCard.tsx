@@ -10,7 +10,6 @@ const RecipeCard = ({ recipe }: { recipe: Recipe }) => {
       e.stopPropagation();
       setIsFav(!isFav);
       setNotification(isFav ? 'Removed from favorites' : 'Added to favorites');
-      console.log('Fav clicked');
     };
 
     const handleCloseNotification = () => {
@@ -22,7 +21,7 @@ const RecipeCard = ({ recipe }: { recipe: Recipe }) => {
       <img src={recipe.image} alt={recipe.name} className="w-full h-64 object-cover" />
       <div className="p-6 "> 
         <div className='flex justify-between'>
-          <h2 className="text-3xl font-bold text-gray-800 mb-2">{recipe.name}</h2> 
+          <h2 className="text-3xl font-bold text-gray-800 mb-2">{recipe.name.charAt(0).toUpperCase() + recipe.name.slice(1)}</h2> 
           <img src={`${isFav ? '/icons/favorite_filled.svg' : '/icons/favorite.svg'}`} alt="" className='w-7' onClick={handleFavClick}/>
         </div>
         <p className="text-gray-600 mb-4">

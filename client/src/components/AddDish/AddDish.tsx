@@ -38,18 +38,6 @@ const AddDishForm = () => {
     const [createRecipe, { isLoading, isSuccess, isError }] = useCreateRecipeMutation();
 
     const onSubmit: SubmitHandler<DishFormFields> = async (data) => {
-        console.log('data from form -- >', data)
-        // const formData = {
-        //     name: data.name,
-        //     description: data.description,
-        //     cookTime: Number(data.timeInMinutes),
-        //     people: Number(data.servings),
-        //     ingredients: data.ingredients.map(ingredient => ingredient.name),
-        //     steps: data.steps.map(step => step.step),
-        //     fasting: data.fasting === 'fasting',
-        //     mealType: data.mealType,
-        //     // image: data.image[0], 
-        // };
         const formData = new FormData();
         formData.append("name", data.name);
         formData.append("description", data.description);
@@ -68,11 +56,10 @@ const AddDishForm = () => {
             return;
         }
 
-        console.log('formdata', formData);
 
         try {
             await createRecipe(formData).unwrap();
-                console.log('Form submitted successfully');
+                // console.log('Form submitted successfully');
                 navigate('/home');
         } catch (error: any) {
             console.error('Errorrrr:', error.data);

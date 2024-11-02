@@ -32,8 +32,6 @@ export class RolesGuard implements CanActivate {
 
         const user_role = decodedToken.role;
         const user_id = decodedToken.id;
-        console.log(user_role)
-        console.log(user_id)
 
         if (!user_role) {
           return false;

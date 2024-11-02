@@ -25,7 +25,6 @@ const SignupForm = () => {
     const onSubmit: SubmitHandler<SignupFields> = async (data) => {
         try {
             const response = await signup(data).unwrap();
-            console.log('Signup Successful:', response);
             authLogin(response.token, response.role);
             dispatch(loginAction());             
             navigate('/home');

@@ -1,0 +1,23 @@
+.nav-item a {
+    font-size: large;
+    font-weight: 600;
+    position: relative;
+    color: #333;
+    text-decoration: none;
+    padding-bottom: 5px;
+}
+
+.nav-item a::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 0;
+    height: 3px;
+    background-color: #000000;
+    transition: width 0.7s ease;
+}
+
+.nav-item a:hover::after {
+    width: 100%;
+}
