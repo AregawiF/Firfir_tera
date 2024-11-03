@@ -12,6 +12,7 @@ import { AuthProvider } from './components/auth/AuthProvider';
 import Mydishes from './components/Mydishes/Mydishes';
 import ProfilePage from './components/Profile/ProfilePage';
 import ContactUs from './components/contactUs/ContactUs';
+import Favorites from './components/Favorites/Favorites';
 
 function App() {
   return (
@@ -29,6 +30,7 @@ function App() {
           <Route path="/recipe/:id" element={<RecipePage />} />
           <Route path="/profile" element={<ProfilePage />} />
           <Route path="/contact-us" element={<ContactUs />} />
+          <Route path="/favorites" element={<Favorites />} />
           <Route 
             path="/add-dish" 
             element={

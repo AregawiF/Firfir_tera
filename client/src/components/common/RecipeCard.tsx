@@ -1,15 +1,37 @@
 import { Recipe } from '../../types/Recipe';
 import {useState} from 'react';
 import Notification from './Notification';
+import { useAddFavoriteMutation, useRemoveFavoriteMutation } from '../../services/favoritesApi';
+import { useDispatch, useSelector } from 'react-redux';
+import { addFavorite, removeFavorite } from '../../store/favoritesSlice';
 
-const RecipeCard = ({ recipe }: { recipe: Recipe }) => {
-    const [isFav, setIsFav] = useState(false);
+
+const RecipeCard = ({ recipe, isFav: initialIsFav }: { recipe: Recipe, isFav: boolean }) => {
+    const dispatch = useDispatch();
+    const [isFav, setIsFav] = useState(initialIsFav);
     const [notification, setNotification] = useState('');
-    const handleFavClick = (e: React.MouseEvent) => {
+    const [createFav] = useAddFavoriteMutation();
+    const [removeFav] = useRemoveFavoriteMutation();
+
+
+    const handleFavClick = async (e: React.MouseEvent) => {
       e.preventDefault();
       e.stopPropagation();
-      setIsFav(!isFav);
-      setNotification(isFav ? 'Removed from favorites' : 'Added to favorites');
+      try {
+        if (isFav) {
+          await removeFav(recipe._id).unwrap();
+          dispatch(removeFavorite(recipe._id.toString()));
+          setNotification('Removed from favorites');
+        } else {
+          await createFav({ recipe_id: recipe._id }).unwrap();
+          dispatch(addFavorite(recipe._id.toString()));
+          setNotification('Added to favorites');
+        }
+        setIsFav(!isFav);
+      } catch (error) {
+          console.error('Failed to update favorite:', error); 
+          setNotification('Failed to update favorites'); 
+      }
     };
 
     const handleCloseNotification = () => {

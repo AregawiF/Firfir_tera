@@ -4,6 +4,9 @@ import { useDispatch } from 'react-redux';
 import { useAuth } from '../auth/AuthProvider';
 import { logout } from '../../store/authSlice';
 import './NavBar.css';
+import { resetFavorites } from '../../store/favoritesSlice';
+import { favoritesApi } from '../../services/favoritesApi';
+
 
 const NavBar: React.FC = () => {
   const { userRole, logout: authLogout } = useAuth(); 
@@ -15,6 +18,8 @@ const NavBar: React.FC = () => {
   const handleLogout = () => {
     authLogout();                      // Update AuthProvider state
     dispatch(logout());                // Update Redux state if necessary
+    dispatch(resetFavorites());
+    dispatch(favoritesApi.util.resetApiState());
     navigate('/onboarding');           // Redirect to onboarding page
   };
 

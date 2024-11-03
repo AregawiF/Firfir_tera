@@ -18,11 +18,14 @@ export const favoritesApi = createApi({
         getFavorites: builder.query({
             query: () => '/favorites',
         }),
+        getFavoritesIds: builder.query({
+            query: () => '/favorites/ids'
+        }),
         addFavorite: builder.mutation({
-            query: (favorite) => ({
+            query: (recipeId) => ({
                 url: '/favorites',
                 method: 'POST',
-                body: favorite,
+                body: recipeId,
             }),
         }),
         removeFavorite: builder.mutation({
@@ -34,4 +37,4 @@ export const favoritesApi = createApi({
     }),
 });
 
-export const { useGetFavoritesQuery, useAddFavoriteMutation, useRemoveFavoriteMutation } = favoritesApi;
+export const { useGetFavoritesQuery, useAddFavoriteMutation, useRemoveFavoriteMutation, useGetFavoritesIdsQuery } = favoritesApi;

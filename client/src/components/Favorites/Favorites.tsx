@@ -6,6 +6,7 @@ import { Recipe } from "../../types/Recipe";
 const Favorites = () => {
   const { data: favorites = [], isLoading, isError, error } = useGetFavoritesQuery({});
   
+  console.log(favorites)
   if (isLoading) return <div>Loading...</div>;
   if (error) {
     const errorMessage = 'status' in error ? `Error fetching favorites: ${error.status}` : 'Error fetching favorites';
@@ -19,11 +20,11 @@ const Favorites = () => {
           You have no favorite recipes yet !
         </div>
       ) : (
-        favorites.map((favorite: Recipe) => {
+        favorites.map((favorite: Recipe) => (
           <Link to={`/recipe/${favorite._id}`} key={favorite._id}>
-            <RecipeCard key={favorite._id} recipe={favorite} />
+            <RecipeCard key={favorite._id} recipe={favorite} isFav={true} />
           </Link>
-        })
+        ))
       )}
 
     </div>

@@ -2,10 +2,8 @@ import { IsNotEmpty, IsString } from "class-validator";
 
 export class FavoriteDto {
   @IsString()
-  @IsNotEmpty()
   recipe_id: string;
 
-  @IsString()
-  @IsNotEmpty()
+  // @IsString()
   user_id: string;
 }

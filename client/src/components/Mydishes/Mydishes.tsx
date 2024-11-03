@@ -2,8 +2,12 @@ import RecipeCard from '../common/RecipeCard';
 import { Recipe } from '../../types/Recipe';
 import { Link } from 'react-router-dom';
 import { useGetMyDishesQuery } from '../../services/recipesApi';
+import { useSelector } from 'react-redux';
+import { useGetFavoritesIdsQuery } from '../../services/favoritesApi';
 
 const Mydishes = () => {
+  const { data: favoriteIds = [],refetch: refetchFavorites } = useGetFavoritesIdsQuery({}, { refetchOnMountOrArgChange: true });
+  
   const { data: recipes = [], error, isLoading } = useGetMyDishesQuery({});
   if (isLoading) return <div>Loading...</div>;
   if (error) {
@@ -18,11 +22,14 @@ const Mydishes = () => {
           You don't have any dishes yet. 😢
         </div>
       ) : (
-        recipes.map((recipe: Recipe) => (
+        recipes.map((recipe: Recipe) => {
+          const isFavorite = favoriteIds.includes(recipe._id);
+          return (
           <Link to={`/recipe/${recipe._id}`} key={recipe._id}>
-            <RecipeCard key={recipe._id} recipe={recipe} />
+            <RecipeCard key={recipe._id} recipe={recipe} isFav={isFavorite}/>
           </Link>
-        ))
+          );
+          })
       )}
     </div>
   );
