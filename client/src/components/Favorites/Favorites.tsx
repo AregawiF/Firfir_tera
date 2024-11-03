@@ -2,11 +2,15 @@ import { Link } from "react-router-dom";
 import { useGetFavoritesQuery } from "../../services/favoritesApi";
 import RecipeCard from "../common/RecipeCard";
 import { Recipe } from "../../types/Recipe";
+import { useEffect } from "react";
 
 const Favorites = () => {
-  const { data: favorites = [], isLoading, isError, error } = useGetFavoritesQuery({});
+  const { data: favorites = [], isLoading, isError, error, refetch: refetchFavorites } = useGetFavoritesQuery({});
+
+  useEffect(() => {
+    refetchFavorites();
+  }, []);
   
-  console.log(favorites)
   if (isLoading) return <div>Loading...</div>;
   if (error) {
     const errorMessage = 'status' in error ? `Error fetching favorites: ${error.status}` : 'Error fetching favorites';

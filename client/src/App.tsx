@@ -1,4 +1,4 @@
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, useLocation } from 'react-router-dom';
 import PageNotFound from "./components/404/PageNotFound";
 import AddDishForm from "./components/AddDish/AddDish";
 import NavBar from "./components/common/NavBar";
@@ -15,17 +15,17 @@ import ContactUs from './components/contactUs/ContactUs';
 import Favorites from './components/Favorites/Favorites';
 
 function App() {
+  const location = useLocation();
+
+  const hideNavBarRoutes = ["/onboarding"];
   return (
     <AuthProvider>
-      <div className="h-full">
-        <NavBar/>
-        <div className="child ">
-
+      <div className="h-full min-h-screen">
+        {!hideNavBarRoutes.includes(location.pathname) && <NavBar />}
+        {/* <NavBar/> */}
         <Routes>
           <Route path="/" element={<Onboarding />} />
           <Route path="/home" element={<Home />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/signup" element={<Signup />} />
           <Route path="/onboarding" element={<Onboarding />} />
           <Route path="/recipe/:id" element={<RecipePage />} />
           <Route path="/profile" element={<ProfilePage />} />
@@ -50,7 +50,6 @@ function App() {
           <Route path="/my-dishes" element={<Mydishes/>}/>
           <Route path="*" element={<PageNotFound />} />
         </Routes>
-        </div>
       </div>
     </AuthProvider>
   );

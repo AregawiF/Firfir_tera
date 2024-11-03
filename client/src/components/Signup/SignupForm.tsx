@@ -49,11 +49,11 @@ const SignupForm = () => {
                         })} 
                         type="text" 
                         placeholder='First Name' 
-                        className='border-2 border-gray-400 rounded-lg p-2 ml-5 w-4/5 ' 
+                        className='border-2 border-gray-400 rounded-lg p-2 h-10 ml-5 w-4/5 ' 
                     />
                 </div>
-                {errors.firstName && <p className='text-red-500 ml-7'>{errors.firstName.message}</p>}
-                
+                <br />
+                <br />
                 <div className="lastName-container flex ">
                     <input 
                         {...register("lastName", {
@@ -62,10 +62,13 @@ const SignupForm = () => {
                         })} 
                         type="text" 
                         placeholder='Last Name' 
-                        className='border-2 border-gray-400 rounded-lg p-2 ml-5 ' 
-                    />
-                    {errors.lastName && <p className='text-red-500 ml-7'>{errors.lastName.message}</p>}
+                        className='border-2 border-gray-400 rounded-lg p-2 ml-5 h-10' 
+                        />
                 </div>
+            </div>
+            <div className="name-errors ml-7">
+                {errors.firstName && <p className='text-red-500 ml-7 text-sm'>{errors.firstName.message}</p>}
+                {errors.lastName && <p className='text-red-500 ml-7 text-sm'>{errors.lastName.message}</p>}
             </div>
             <div className="email-container flex justify-center mt-4 ">
                 <span className="input-group-text self-center">
@@ -81,10 +84,10 @@ const SignupForm = () => {
                     })} 
                     type="text" 
                     placeholder='Email' 
-                    className='border-2 border-gray-400 rounded-lg p-2 ml-5 w-4/5 ' 
+                    className='border-2 border-gray-400 rounded-lg p-2 ml-5 w-4/5 h-10' 
                 />
-                {errors.email && <p className='text-red-500 ml-7'>{errors.email.message}</p>}
             </div>
+                {errors.email && <p className='text-red-500 ml-20 text-sm'>{errors.email.message}</p>}
 
             <div className='flex justify-center mt-4 '>
                 <span className="input-group-text self-center">
@@ -97,10 +100,10 @@ const SignupForm = () => {
                     })} 
                     type="password" 
                     placeholder='Password' 
-                    className='border-2 border-gray-400 rounded-lg p-2 ml-5 w-4/5' 
+                    className='border-2 border-gray-400 rounded-lg p-2 ml-5 w-4/5 h-10' 
                 />
-                {errors.password && <p className='text-red-500 ml-7'>{errors.password.message}</p>}
             </div>
+                {errors.password && <p className='text-red-500 ml-20 text-sm'>{errors.password.message}</p>}
 
             <div className='text-center'>
                 <div className='text-2xl my-4'>What will you be doing?</div>
@@ -116,7 +119,7 @@ const SignupForm = () => {
                     value="cook"
                     className="ml-10"
                 /> Post Recipes
-                {errors.role && <p className='text-red-500 ml-7'>{errors.role.message}</p>}
+                {errors.role && <p className='text-red-500 ml-7 text-sm'>{errors.role.message}</p>}
                 
                 {watch("role") === "cook" && (
                     <div className="mt-4">
@@ -127,16 +130,16 @@ const SignupForm = () => {
                                 placeholder="Title"
                                 className="border-2 border-gray-400 rounded-lg p-2 ml-5 w-4/5"
                             />
-                            {errors.title && <p className='text-red-500 ml-7'>{errors.title.message}</p>}
                         </div>
+                            {errors.title && <p className='text-red-500 ml-7 text-sm'>{errors.title.message}</p>}
                         <div className="flex justify-center mt-4">
                             <textarea
                                 {...register("bio", { required: "Bio is required" })}
                                 placeholder="Bio"
                                 className="border-2 border-gray-400 rounded-lg p-2 ml-5 w-4/5"
                             />
-                            {errors.bio && <p className='text-red-500 ml-7'>{errors.bio.message}</p>}
                         </div>
+                            {errors.bio && <p className='text-red-500 ml-7 text-sm'>{errors.bio.message}</p>}
                     </div>
                 )}
             </div>

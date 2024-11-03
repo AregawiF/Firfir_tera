@@ -10,11 +10,12 @@ import { setFavorites } from '../../store/favoritesSlice';
 const Home = () => {
   const dispatch = useDispatch();
   const { data: recipes = [], error, isLoading} = useGetRecipesQuery({});
-  const { data: favoriteIds = [],refetch: refetchFavorites } = useGetFavoritesIdsQuery({}, { refetchOnMountOrArgChange: true });
+  const { data: favoriteIds = [], refetch: refetchFavorites } = useGetFavoritesIdsQuery({}, { refetchOnMountOrArgChange: true });
 
   useEffect(() => {
-        refetchFavorites(); 
-    }, []);
+    refetchFavorites();
+  }, []);
+
   useEffect(() => {
     if (favoriteIds.length) {
       dispatch(setFavorites(favoriteIds));

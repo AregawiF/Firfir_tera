@@ -2,11 +2,15 @@ import RecipeCard from '../common/RecipeCard';
 import { Recipe } from '../../types/Recipe';
 import { Link } from 'react-router-dom';
 import { useGetMyDishesQuery } from '../../services/recipesApi';
-import { useSelector } from 'react-redux';
 import { useGetFavoritesIdsQuery } from '../../services/favoritesApi';
+import { useEffect } from 'react';
 
 const Mydishes = () => {
   const { data: favoriteIds = [],refetch: refetchFavorites } = useGetFavoritesIdsQuery({}, { refetchOnMountOrArgChange: true });
+
+  useEffect(() => {
+    refetchFavorites(); 
+  } ,[]);
   
   const { data: recipes = [], error, isLoading } = useGetMyDishesQuery({});
   if (isLoading) return <div>Loading...</div>;
