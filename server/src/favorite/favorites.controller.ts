@@ -50,7 +50,6 @@ export class FavoritesController {
     const removeFav = new FavoriteDto();
     removeFav.recipe_id = favId;
     removeFav.user_id = userId;
-    console.log(removeFav);
     return await this.favoritesService.removeFavorite(removeFav);
   }
 }

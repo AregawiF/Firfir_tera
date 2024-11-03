@@ -10,7 +10,6 @@ import { JwtStrategy } from './auth/strategies/jwt.strategy';
 import { UserModule } from './user/user.module';
 import * as bodyParser from 'body-parser';
 import { FavoritesModule } from './favorite/favorites.module';
-// import { CorsModule } from '@nestjs/platform-express';
 
 @Module({
   imports: [

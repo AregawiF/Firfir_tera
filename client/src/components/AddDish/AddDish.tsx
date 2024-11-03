@@ -59,7 +59,6 @@ const AddDishForm = () => {
 
         try {
             await createRecipe(formData).unwrap();
-                // console.log('Form submitted successfully');
                 navigate('/home');
         } catch (error: any) {
             console.error('Errorrrr:', error.data);
