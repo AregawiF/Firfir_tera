@@ -5,9 +5,25 @@ import { ValidationPipe } from '@nestjs/common';
 import * as path from 'path';
 import { mkdirSync } from 'fs';
 import serverlessExpress from '@vendia/serverless-express';
-import { Handler, Context, Callback } from 'aws-lambda';
+import { Handler, Context, Callback, APIGatewayProxyEvent, APIGatewayProxyResult } from 'aws-lambda';
 
 let server: Handler;
+export const handler: Handler = async (event: APIGatewayProxyEvent, context: Context, callback: Callback): Promise<APIGatewayProxyResult> => {
+  if (!server) {
+    server = await bootstrap();
+  }
+
+  const response = await server(event, context, callback);
+
+  // Ensure CORS headers are included in every response
+  if (!response.headers) response.headers = {};
+  response.headers['Access-Control-Allow-Origin'] = 'https://firfir-tera.vercel.app';
+  response.headers['Access-Control-Allow-Credentials'] = 'true';
+  response.headers['Access-Control-Allow-Methods'] = 'GET, POST, PATCH, DELETE';
+
+  return response;
+};
+
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -30,13 +46,3 @@ async function bootstrap() {
   return serverlessExpress({ app: expressApp });
 }
 // bootstrap();
-export const handler: Handler = (event: any, context: Context, callback: Callback) => {
-  if (!server) {
-    bootstrap().then((s) => {
-      server = s;
-      server(event, context, callback);
-    });
-  } else {
-    server(event, context, callback);
-  }
-};
