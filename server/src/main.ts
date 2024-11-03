@@ -15,7 +15,7 @@ async function bootstrap() {
   mkdirSync(uploadsDir, { recursive: true }); 
   app.enableCors(
     {
-  origin: '*',
+  origin: 'https://firfir-tera.vercel.app',
   methods: ['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE'],
 
 }
