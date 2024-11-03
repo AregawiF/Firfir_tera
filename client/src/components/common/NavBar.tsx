@@ -7,6 +7,8 @@ import './NavBar.css';
 import { resetFavorites } from '../../store/favoritesSlice';
 import { favoritesApi } from '../../services/favoritesApi';
 
+import accountIcon from "../../assets/icons/account.svg"
+import mainLogo from "../../assets/icons/Firfir_Logo.png"
 
 const NavBar: React.FC = () => {
   const { userRole, logout: authLogout } = useAuth(); 
@@ -45,7 +47,7 @@ const NavBar: React.FC = () => {
         <div className="flex justify-between bg-gray-100 p-3 py-5 ">
             <Link to="/home" className='flex w-1/6'>
               <div className="flex ml-6 ">
-                  <img src="/icons/Firfir_Logo.png" alt="Logo" className='w-20 rounded-sm'/>
+                  <img src={mainLogo} alt="Logo" className='w-20 rounded-sm'/>
                   <div className="text-xl font-semibold ml-2 my-auto">Firfir Tera</div>
               </div>
             </Link>
@@ -68,7 +70,7 @@ const NavBar: React.FC = () => {
 
                 <div className="relative mr-6" ref={dropdownRef}>
                   <img
-                    src="/icons/account.svg"
+                    src={accountIcon}
                     alt="account"
                     className="w-12 cursor-pointer"
                     onClick={toggleDropdown}

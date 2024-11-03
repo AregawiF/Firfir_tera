@@ -17,7 +17,7 @@ import Favorites from './components/Favorites/Favorites';
 function App() {
   const location = useLocation();
 
-  const hideNavBarRoutes = ["/onboarding"];
+  const hideNavBarRoutes = ["/onboarding", "/"];
   return (
     <AuthProvider>
       <div className="h-full min-h-screen">

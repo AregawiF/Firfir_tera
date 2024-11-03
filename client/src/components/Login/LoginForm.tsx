@@ -6,6 +6,8 @@ import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { login as loginAction } from '../../store/authSlice'; 
 import { useAuth } from '../auth/AuthProvider';
+import emailIcon from "../../assets/icons/email.svg"
+import passwordIcon from "../../assets/icons/password.svg"
 
 type FormFields = {
     email: string;
@@ -35,7 +37,7 @@ const LoginForm = () => {
     <form onSubmit={handleSubmit(onSubmit)} className='' >
         <div className="email-container flex justify-center ">
             <span className="input-group-text self-center">
-                <img src="/icons/email.svg" alt="email icon" className='w-6' />
+                <img src={emailIcon} alt="email icon" className='w-6' />
             </span>
             <input {...register("email", {
                 required: "Email is required",
@@ -48,7 +50,7 @@ const LoginForm = () => {
 
         <div className='flex justify-center mt-8 '>
             <span className="input-group-text self-center">
-                <img src="/icons/password.svg" alt="password icon" className='w-7 self-center' />
+                <img src={passwordIcon} alt="password icon" className='w-7 self-center' />
             </span>
             <input {...register("password", {
                 required: "Password is required",

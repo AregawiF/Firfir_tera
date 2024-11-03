@@ -4,6 +4,9 @@ import { useNavigate } from 'react-router-dom';
 import { login as loginAction } from '../../store/authSlice'; 
 import { useDispatch } from 'react-redux';
 import { useAuth } from '../auth/AuthProvider';
+import emailIcon from "../../assets/icons/email.svg"
+import passwordIcon from "../../assets/icons/password.svg"
+import userIcon from "../../assets/icons/user.svg"
 
 type SignupFields = {
     firstName: string;
@@ -40,7 +43,7 @@ const SignupForm = () => {
             <div className="names flex justify-center">
                 <div className="firstName-container flex ">
                     <span className="input-group-text self-center">
-                        <img src="/icons/user.svg" alt="user icon" className='w-6' />
+                        <img src={userIcon} alt="user icon" className='w-6' />
                     </span>
                     <input 
                         {...register("firstName", {
@@ -72,7 +75,7 @@ const SignupForm = () => {
             </div>
             <div className="email-container flex justify-center mt-4 ">
                 <span className="input-group-text self-center">
-                    <img src="/icons/email.svg" alt="email icon" className='w-6' />
+                    <img src={emailIcon} alt="email icon" className='w-6' />
                 </span>
                 <input 
                     {...register("email", {
@@ -91,7 +94,7 @@ const SignupForm = () => {
 
             <div className='flex justify-center mt-4 '>
                 <span className="input-group-text self-center">
-                    <img src="/icons/password.svg" alt="Password icon" className='w-7 self-center' />
+                    <img src={passwordIcon} alt="Password icon" className='w-7 self-center' />
                 </span>
                 <input 
                     {...register("password", {

@@ -4,6 +4,8 @@ import Notification from './Notification';
 import { useAddFavoriteMutation, useRemoveFavoriteMutation } from '../../services/favoritesApi';
 import { useDispatch, useSelector } from 'react-redux';
 import { addFavorite, removeFavorite } from '../../store/favoritesSlice';
+import favIcon from '../../assets/icons/favorite.svg';
+import favFilledIcon from '../../assets/icons/favorite_filled.svg';
 
 
 const RecipeCard = ({ recipe, isFav: initialIsFav }: { recipe: Recipe, isFav: boolean }) => {
@@ -44,7 +46,7 @@ const RecipeCard = ({ recipe, isFav: initialIsFav }: { recipe: Recipe, isFav: bo
       <div className="p-6 "> 
         <div className='flex justify-between'>
           <h2 className="text-3xl font-bold text-gray-800 mb-2">{recipe.name.charAt(0).toUpperCase() + recipe.name.slice(1)}</h2> 
-          <img src={`${isFav ? '/icons/favorite_filled.svg' : '/icons/favorite.svg'}`} alt="" className='w-7' onClick={handleFavClick}/>
+          <img src={`${isFav ? {favFilledIcon} : {favIcon}}`} alt="" className='w-7' onClick={handleFavClick}/>
         </div>
         <p className="text-gray-600 mb-4">
           ⏱️Cook Time: <span className="font-semibold">{recipe.cookTime} mins</span> | 👥 Serves: <span className="font-semibold">{recipe.people}</span> <br />🌱Fasting: <span className="font-semibold">{recipe.fasting ? 'Yes' : 'No'}</span> | 🍽️ Type: <span className="font-semibold">{recipe.mealType}</span> 
