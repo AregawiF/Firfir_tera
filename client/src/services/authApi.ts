@@ -2,7 +2,10 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
 export const authApi = createApi({
   reducerPath: 'authApi',
-  baseQuery: fetchBaseQuery({ baseUrl: 'https://firfir-tera-1b8qbtyan-aregawis-projects.vercel.app' }),
+  baseQuery: fetchBaseQuery({ 
+    // baseUrl: 'https://firfir-tera-1b8qbtyan-aregawis-projects.vercel.app' 
+    baseUrl: 'https://firfir-tera-lj2sz63vc-aregawis-projects.vercel.app' 
+  }),
   endpoints: (builder) => ({
     signup: builder.mutation({
       query: (user) => ({
