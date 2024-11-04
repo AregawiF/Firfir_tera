@@ -1,5 +1,5 @@
 import { NestFactory } from '@nestjs/core';
-import { AppModule } from '../app.module';
+import { AppModule } from './app.module';
 import * as express from 'express';
 import { ValidationPipe } from '@nestjs/common';
 import * as path from 'path';
@@ -18,7 +18,7 @@ async function bootstrap() {
   app.use(express.json({ limit: '10mb' }))
 
   const corsOptions: CorsOptions = {
-    origin: ['https://firfir-tera.vercel.app'],  
+    origin: "*",  
     methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'], 
     allowedHeaders: ['Content-Type', 'Authorization'], 
     credentials: true, 
