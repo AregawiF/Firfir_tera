@@ -5,10 +5,6 @@ import { ValidationPipe } from '@nestjs/common';
 import * as path from 'path';
 import { mkdirSync } from 'fs';
 import { CorsOptions } from 'cors';
-import serverlessExpress from '@vendia/serverless-express';
-import { Handler, HandlerResponse } from '@netlify/functions';
-
-let serverlessExpressInstance: Handler;
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -25,23 +21,6 @@ async function bootstrap() {
   };
    app.enableCors(corsOptions);
 
-  // await app.listen(3000);
-  await app.init();
-
-  // Use serverlessExpress to create a serverless handler
-  const expressApp = app.getHttpAdapter().getInstance();
-  // return serverlessExpress({ app: expressApp });
-  serverlessExpressInstance = serverlessExpress({ app: expressApp });
-
-  return serverlessExpressInstance;
+  await app.listen(3000);
 }
-// bootstrap();
-
-
-export const handler: Handler = async (event, context) => {
-    if (!serverlessExpressInstance) {
-        await bootstrap();
-    }
-    return serverlessExpressInstance(event, context) as Promise<HandlerResponse>;
-
-};
+bootstrap();

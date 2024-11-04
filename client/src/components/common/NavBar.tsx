@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { useAuth } from '../auth/AuthProvider';
 import { logout } from '../../store/authSlice';
@@ -14,6 +14,7 @@ const NavBar: React.FC = () => {
   const { userRole, logout: authLogout } = useAuth(); 
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const location = useLocation();
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
@@ -55,15 +56,15 @@ const NavBar: React.FC = () => {
               <div className="nav-rapper flex py-auto w-full ">
                 <nav className='w-full flex '>
                   <ul className={`flex justify-between align-middle ml-16  ${userRole === 'viewer'? 'w-2/6' : 'w-3/6'} `}>
-                    <li className='my-auto nav-item'><Link to="/home">Home</Link></li>
+                    <li className={`my-auto nav-item ${location.pathname === '/home' ? 'active' : ''}`}><Link to="/home">Home</Link></li>
                     {userRole === 'cook' && (
                       <>
-                        <li className='my-auto nav-item'><Link to="/my-dishes">My Dishes</Link></li>
-                        <li className='my-auto nav-item'><Link to="/add-dish">Add Dish</Link></li>
+                        <li className={`my-auto nav-item ${location.pathname === '/my-dishes' ? 'active' : ''}`}><Link to="/my-dishes">My Dishes</Link></li>
+                        <li className={`my-auto nav-item ${location.pathname === '/add-dish' ? 'active' : ''}`}><Link to="/add-dish">Add Dish</Link></li>
                       </>
                     )}
-                    <li className='my-auto nav-item'><Link to="/favorites">Favorites</Link></li>
-                    <li className='my-auto nav-item'><Link to="/contact-us">Contact us</Link></li>
+                    <li className={`my-auto nav-item ${location.pathname === '/favorites' ? 'active' : ''}`}><Link to="/favorites">Favorites</Link></li>
+                    <li className={`my-auto nav-item ${location.pathname === '/contact-us' ? 'active' : ''}`}><Link to="/contact-us">Contact us</Link></li>
                   </ul>
                 </nav>
 

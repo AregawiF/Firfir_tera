@@ -8,9 +8,7 @@ import { APP_GUARD, Reflector } from '@nestjs/core';
 import { RolesGuard } from './guards/roles.guard';
 import { JwtStrategy } from './auth/strategies/jwt.strategy';
 import { UserModule } from './user/user.module';
-import * as bodyParser from 'body-parser';
 import { FavoritesModule } from './favorite/favorites.module';
-import { CorsMiddleware } from './cors.middleware';
 
 @Module({
   imports: [
@@ -29,8 +27,5 @@ import { CorsMiddleware } from './cors.middleware';
     useClass: RolesGuard,
   }, Reflector, JwtStrategy]
 })
-export class AppModule implements NestModule {
-  configure(consumer: MiddlewareConsumer) {
-    consumer.apply(CorsMiddleware).forRoutes('*');
-  }
-}
+
+export class AppModule {}
