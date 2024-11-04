@@ -1,10 +1,13 @@
 import { NestFactory } from '@nestjs/core';
-import { AppModule } from './app.module';
+import { AppModule } from '../app.module';
 import * as express from 'express';
 import { ValidationPipe } from '@nestjs/common';
 import * as path from 'path';
 import { mkdirSync } from 'fs';
 import serverlessExpress from '@vendia/serverless-express';
+import { Handler, HandlerResponse } from '@netlify/functions';
+
+let serverlessExpressInstance: Handler;
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -17,6 +20,18 @@ async function bootstrap() {
 
   // Use serverlessExpress to create a serverless handler
   const expressApp = app.getHttpAdapter().getInstance();
-  return serverlessExpress({ app: expressApp });
+  // return serverlessExpress({ app: expressApp });
+  serverlessExpressInstance = serverlessExpress({ app: expressApp });
+
+  return serverlessExpressInstance;
 }
-bootstrap();
+// bootstrap();
+
+
+export const handler: Handler = async (event, context) => {
+    if (!serverlessExpressInstance) {
+        await bootstrap();
+    }
+    return serverlessExpressInstance(event, context) as Promise<HandlerResponse>;
+
+};

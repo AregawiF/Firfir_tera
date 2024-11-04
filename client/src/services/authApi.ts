@@ -4,7 +4,7 @@ export const authApi = createApi({
   reducerPath: 'authApi',
   baseQuery: fetchBaseQuery({ 
     // baseUrl: 'https://firfir-tera-1b8qbtyan-aregawis-projects.vercel.app' 
-    baseUrl: 'https://firfir-tera-lj2sz63vc-aregawis-projects.vercel.app' 
+    baseUrl: 'https://firfir-tera-api.vercel.app/api' 
   }),
   endpoints: (builder) => ({
     signup: builder.mutation({
@@ -21,12 +21,6 @@ export const authApi = createApi({
         body: credentials,
       }),
     }),
-    // logout: builder.mutation({
-    //   query: () => ({
-    //     url: '/auth/logout',
-    //     method: 'POST',
-    //   }),
-    // }),
   }),
 });
 
