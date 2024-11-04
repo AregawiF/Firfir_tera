@@ -1,5 +1,5 @@
 {
-  "version" : 2,
+  "version": 2,
   "builds": [
     { "src": "src/main.ts", "use": "@vercel/node" }
   ],
@@ -7,19 +7,18 @@
     { 
       "src": "/(.*)", 
       "dest": "/api/$1",
-      "methods": ["GET", "POST", "PUT", "PATCH", "DELETE"],
+      "methods": ["GET", "POST", "PUT", "PATCH", "DELETE"]
+    }
+  ],
+  "headers": [
+    {
+      "source": "/(.*)",
       "headers": [
-        {
-          "source": "/(.*)",
-          "headers": [
-            { "key": "Access-Control-Allow-Origin", "value": "https://firfir-tera.vercel.app" },
-            { "key": "Access-Control-Allow-Methods", "value": "GET,HEAD,PUT,PATCH,POST,DELETE" },
-            { "key": "Access-Control-Allow-Headers", "value": "Content-Type, Authorization" },
-            { "key": "Access-Control-Allow-Credentials", "value": "true" }
-          ]
-        }
+        { "key": "Access-Control-Allow-Origin", "value": "*" },
+        { "key": "Access-Control-Allow-Methods", "value": "GET,HEAD,PUT,PATCH,POST,DELETE" },
+        { "key": "Access-Control-Allow-Headers", "value": "Content-Type, Authorization" },
+        { "key": "Access-Control-Allow-Credentials", "value": "true" }
       ]
     }
   ]
 }
-
